@@ -16,10 +16,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Wob> $wobs
+ * @property-read int|null $wobs_count
  * @mixin \Eloquent
  */
 class Tag extends Model
 {
+    protected $table = 'tags';
+    protected $keyType = 'string';
+    public $incrementing = 'false';
+    protected $fillable = [
+        "name"
+    ];
     public function wobs()
     {
         return $this->belongsToMany(Wob::class, 'wob_tags');

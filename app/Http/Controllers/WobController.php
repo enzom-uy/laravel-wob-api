@@ -8,11 +8,24 @@ use Illuminate\Http\Request;
 
 class WobController extends Controller
 {
-    public function test()
+    public function insert(Request $request)
     {
-        $wobs = Wob::all();
+        $request->validate([
+            'eventId' => ['required', 'integer'],
+            'eventDate' => ['required', 'date_format:Y-m-d'],
+            'tags' => ['nullable', 'string'],
+            'lines' => ['required', 'array:speaker,text'],
+            'note' => ['nullable', 'string']
+        ]);
 
-        return response()->json($wobs);
+        $eventId = $request->input('eventId');
+        // TODO: format date to global standard (d-m-Y)
+        $eventDate = $request->input('eventDate');
+        $tags = $request->input('tags');
+        $lines = $request->input('lines');
+        $note = $request->input('notes');
+
+        // TODO: make HTML to plain text parser as in the Go DB feeder script
     }
 
     public function search(Request $request)
@@ -106,7 +119,6 @@ class WobController extends Controller
             'afterDate' => $afterDate,
             'beforeDate' => $beforeDate,
         ];
-
         return response()->json($response, 200);
     }
 }
